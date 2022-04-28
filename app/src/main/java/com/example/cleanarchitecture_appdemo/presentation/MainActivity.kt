@@ -7,14 +7,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.example.cleanarchitecture_appdemo.R
+import com.example.cleanarchitecture_appdemo.data.repository.UserRepositoryImpl
 import com.example.cleanarchitecture_appdemo.domain.models.SaveUserNameParam
 import com.example.cleanarchitecture_appdemo.domain.usecase.GetUserNameUseCase
 import com.example.cleanarchitecture_appdemo.domain.usecase.SaveUserNameUseCase
 
 class MainActivity : AppCompatActivity() {
 
-    private val getUserNameUseCase = GetUserNameUseCase()
-    private val saveUserNameUseCase = SaveUserNameUseCase()
+    private val userRepository by lazy(LazyThreadSafetyMode.NONE) { UserRepositoryImpl(context = applicationContext) }
+    private val getUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { GetUserNameUseCase(userRepository) }
+    private val saveUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { SaveUserNameUseCase(userRepository) }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
