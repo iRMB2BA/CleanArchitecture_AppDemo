@@ -6,20 +6,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.cleanarchitecture_appdemo.R
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var vm: MainViewModel
+    private val vm by viewModel<MainViewModel>()
 
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        vm = ViewModelProvider(this, MainViewModelFactory(this)).get(MainViewModel::class.java)
 
         val dataTextView = findViewById<TextView>(R.id.tv_getData)
         val dataEditView = findViewById<EditText>(R.id.et_saveData)
@@ -39,4 +37,6 @@ class MainActivity : AppCompatActivity() {
             vm.load()
         }
     }
+
+
 }
