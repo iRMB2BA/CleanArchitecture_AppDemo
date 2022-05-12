@@ -8,9 +8,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.cleanarchitecture_appdemo.R
+import com.example.cleanarchitecture_appdemo.app.App
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
+    @javax.inject.Inject
+    lateinit var vmFactory : MainViewModelFactory
     private lateinit var vm: MainViewModel
 
 
@@ -19,7 +23,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        vm = ViewModelProvider(this, MainViewModelFactory(this)).get(MainViewModel::class.java)
+        (applicationContext as App).appComponent.inject(this)
+
+        vm = ViewModelProvider(this, vmFactory)
+            .get(MainViewModel::class.java)
 
         val dataTextView = findViewById<TextView>(R.id.tv_getData)
         val dataEditView = findViewById<EditText>(R.id.et_saveData)
